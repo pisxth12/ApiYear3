@@ -1,0 +1,17 @@
+[90m= [39m[34;4mApp\Models\Product[39;24m {#9486
+    [34mid[39m: [35m1[39m,
+    [34mname[39m: [32m"[39m[32mCoca[39m[32m"[39m,
+    [34mslug[39m: [32m"[39m[32mcoca[39m[32m"[39m,
+    [34msku[39m: [32m"[39m[32masdfgh[39m[32m"[39m,
+    [34mcategory_id[39m: [35m1[39m,
+    [34mbrand_id[39m: [35m1[39m,
+    [34mprice[39m: [32m"[39m[32m0.50[39m[32m"[39m,
+    [34msale_price[39m: [32m"[39m[32m0.40[39m[32m"[39m,
+    [34mstock[39m: [35m99[39m,
+    [34mdescription[39m: [32m"[39m[32masdfg[39m[32m"[39m,
+    [34mimage[39m: [32m"[39m[32mproducts/01KQKVVCRVGA6RCT0RSSVJP54W.webp[39m[32m"[39m,
+    [34mspecifications[39m: [36mnull[39m,
+    [34mis_active[39m: [35m1[39m,
+    [34mcreated_at[39m: [32m"[39m[32m2026-05-02 08:11:02[39m[32m"[39m,
+    [34mupdated_at[39m: [32m"[39m[32m2026-05-02 08:11:02[39m[32m"[39m,
+  }

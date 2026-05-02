@@ -1,0 +1,29 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Setting;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+class SettingsSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $settings = [
+            ['key' => 'phone', 'value' => '012 345 678'],
+            ['key' => 'email', 'value' => 'info@mongkolshop.com'],
+            ['key' => 'address', 'value' => 'Phnom Penh, Cambodia'],
+            ['key' => 'facebook', 'value' => 'https://facebook.com/mongkolshop'],
+            ['key' => 'telegram', 'value' => 'https://t.me/mongkolshop'],
+            ['key' => 'copyright', 'value' => '© 2024 Mongkol Phone Shop'],
+            ['key' => 'location', 'value' => 'Phnom Penh'],
+        ];
+        foreach ($settings as $setting) {
+            Setting::create($setting);
+        }
+    }
+}
