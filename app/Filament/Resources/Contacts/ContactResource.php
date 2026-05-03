@@ -44,6 +44,10 @@ class ContactResource extends Resource
     }
 
 
+    public static function  getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('is_read', false)->count();
+    }
 
     public static function getPages(): array
     {

@@ -23,6 +23,10 @@ class SettingsSeeder extends Seeder
             ['key' => 'telegram', 'value' => 'https://t.me/mongkolshop'],
             ['key' => 'copyright', 'value' => '© 2024 Mongkol Phone Shop'],
             ['key' => 'location', 'value' => 'Phnom Penh'],
+
+            ['key' => 'business_hours_monday_friday', 'value' => '9am - 6pm'],
+            ['key' => 'business_hours_saturday', 'value' => '10am - 4pm'],
+            ['key' => 'business_hours_sunday', 'value' => 'Closed'],
         ];
         foreach ($settings as $setting) {
             Setting::create($setting);

@@ -4,14 +4,15 @@ namespace App\Filament\Widgets;
 
 use App\Models\Contact;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Product;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class StatsOverview extends StatsOverviewWidget
 {
-
     protected static ?int $sort = 1;
+
     protected function getStats(): array
     {
         // Today
@@ -21,6 +22,11 @@ class StatsOverview extends StatsOverviewWidget
         // Yesterday
         $yesterdayOrders = Order::whereDate('created_at', today()->subDay())->count();
         $yesterdayRevenue = Order::whereDate('created_at', today()->subDay())->sum('total');
+
+        // Total sales (sum of all product price × quantity from all completed orders)
+        $totalSales = OrderItem::whereHas('order', function($query) {
+            $query->where('status', 'completed');
+        })->get()->sum(fn($item) => $item->price * $item->quantity);
 
         // Calculate percentage changes
         $ordersChange = $yesterdayOrders > 0
@@ -43,6 +49,11 @@ class StatsOverview extends StatsOverviewWidget
                 ->descriptionIcon($revenueChange >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($revenueChange >= 0 ? 'success' : 'danger')
                 ->chart([3, 5, 8, 12, 9, 7, 11]),
+
+            Stat::make('Total Sales', '$' . number_format($totalSales, 2))
+                ->description('All time sales from completed orders')
+                ->descriptionIcon('heroicon-m-currency-dollar')
+                ->color('success'),
 
             Stat::make('Total Products', Product::count())
                 ->description('Products in store')

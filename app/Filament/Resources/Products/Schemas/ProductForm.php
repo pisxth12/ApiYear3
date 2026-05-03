@@ -38,6 +38,7 @@ class ProductForm
                     ->preload(),
 
                 Select::make('brand_id')
+                    ->label('Brand (Optional)')
                     ->relationship('brand', 'name')
                     ->searchable()
                     ->preload()
@@ -69,8 +70,10 @@ class ProductForm
                     ->default(true),
 
                 Textarea::make('description')
+                    ->label('Description (Optional)')
                     ->maxLength(65535)
                     ->rows(3)
+                    ->nullable()
                     ->columnSpanFull(),
 
                 FileUpload::make('image')

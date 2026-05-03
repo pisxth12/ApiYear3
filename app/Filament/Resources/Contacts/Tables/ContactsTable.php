@@ -65,6 +65,8 @@ class ContactsTable
                     ->action(fn($records) => $records->each->update(['is_read' => false]))
                     ->deselectRecordsAfterCompletion(),
                 ]),
-            ]);
+            ])
+            ->paginated([10,20,50,100])
+            ->defaultPaginationPageOption(10);
     }
 }

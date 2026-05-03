@@ -25,8 +25,9 @@ class OrdersTable
                         'cancelled' => 'danger',
                         default => 'gray',
                     }),
-                TextColumn::make('created_at')->date(),
+                TextColumn::make('created_at')->date()->sortable(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])
@@ -36,7 +37,10 @@ class OrdersTable
             ->toolbarActions([
                 BulkActionGroup::make([
                 ]),
-            ]);
+            ])
+            ->paginated([10,20,50,100])
+            ->defaultPaginationPageOption(10);
+
     }
 
 

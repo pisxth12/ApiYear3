@@ -59,11 +59,6 @@ class OrderController extends Controller
                 'quantity' => $item->quantity,
                 'price' => $item->product->price,
             ]);
-
-            //Reduce stock
-            $product = $item->product;
-            $product->stock -= $item->quantity;
-            $product->save();
         }
 
         //Clear cart
@@ -88,7 +83,33 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Order::with('items.product')->findOrFail($id);
-        return response()->json($order);
+        $order = Order::findOrFail($id);
+
+        $orderData = [
+            'id' => $order->id,
+            'order_number' => $order->order_number,
+            'created_at' => $order->created_at,
+            'customer_name' => $order->customer_name,
+            'customer_phone' => $order->customer_phone,
+            'shipping_address' => $order->shipping_address,
+            'total' => $order->total,
+            'payment_method' => $order->payment_method,
+            'status' => $order->status,
+            'items' => $order->items->map(function($item) {
+                return [
+                    'id' => $item->id,
+                    'quantity' => $item->quantity,
+                    'price' => $item->price,
+                    'product' => $item->product ? [
+                        'id' => $item->product->id,
+                        'name' => $item->product->name,
+                        'image' => $item->product->image ? asset('storage/' . $item->product->image) : null,
+                        'slug' => $item->product->slug,
+                    ] : null
+                ];
+            })
+        ];
+
+        return response()->json($orderData);
     }
 }

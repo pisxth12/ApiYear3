@@ -44,6 +44,46 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
+    public function topProducts()
+    {
+        $products = Product::where('is_active', 1)
+            ->select('id', 'name', 'slug', 'image')
+            ->whereHas('orderItems', function($query) {
+                $query->whereHas('order', function($q) {
+                    $q->where('status', 'completed');
+                });
+            })
+            ->withSum(['orderItems as total_sold' => function($query) {
+                $query->whereHas('order', function($q) {
+                    $q->where('status', 'completed');
+                });
+            }], 'quantity')
+            ->orderBy('total_sold', 'desc')
+            ->take(4)
+            ->get()
+            ->map(function ($product) {
+                 $product->image = $product->image ? asset('storage/' . $product->image) : null;
+                 return $product;
+            });
+
+        return $products;
+    }
+
+    public function relatedProducts($productId)
+    {
+        $product = Product::findOrFail($productId);
+        $related = Product::where('is_active',1)
+            ->select('id', 'name', 'slug', 'image', 'price', 'sale_price')
+            ->where('id', '!=', $productId)
+            ->where('category_id', $product->category_id)
+            ->limit(8)
+            ->get()
+            ->map(function ($product) {
+                $product->image = $product->image ? asset('storage/' . $product->image) : null;
+                return $product;
+            });
+        return $related;
+    }
 
     public function featured(Request $request)
     {

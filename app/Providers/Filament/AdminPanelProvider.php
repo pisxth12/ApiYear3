@@ -32,8 +32,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigationGroups([
                 'Shop Management',
-                'Content Management',
                 'Customer Management',
+                'Content Management',
                 'System',
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')

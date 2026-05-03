@@ -11,8 +11,10 @@ use App\Http\Controllers\Api\SettingController;
 
 // Products
 Route::get('products', [ProductController::class, 'index']);
+Route::get('products/top', [ProductController::class, 'topProducts']);
 Route::get('/featured', [ProductController::class, 'featured']);
 Route::get('products/{slug}', [ProductController::class, 'show']);
+Route::get('/products/{id}/related', [ProductController::class, 'relatedProducts']);
 Route::get('categories', [ProductController::class, 'categories']);
 Route::get('brands', [ProductController::class, 'brands']);
 Route::get('banners', [ProductController::class, 'banners']);

@@ -20,6 +20,7 @@ class CartController extends Controller
             'id' => $cartItem->id,
             'quantity' => $cartItem->quantity,
             'product_id' => $cartItem->product_id,
+            'slug' => $cartItem->product->slug,
             'product_name' => $cartItem->product->name,
             'product_image' => $cartItem->product->image ? asset('storage/' . $cartItem->product->image ) : null,
             'product_price' => $cartItem->product->price,
