@@ -21,6 +21,7 @@ class CartController extends Controller
             'quantity' => $cartItem->quantity,
             'product_id' => $cartItem->product_id,
             'product_name' => $cartItem->product->name,
+            'product_image' => $cartItem->product->image ? asset('storage/' . $cartItem->product->image ) : null,
             'product_price' => $cartItem->product->price,
         ]);
 
@@ -37,7 +38,7 @@ class CartController extends Controller
     public  function count(Request $request)
     {
         $sessionId = $request->session()->getId();
-        $count = Cart::where('session_id', $sessionId)->count();
+        $count = Cart::where('session_id', $sessionId)->sum('quantity');
         return response()->json($count);
 
     }
@@ -51,12 +52,16 @@ class CartController extends Controller
         $sessionId = $request->session()->getId();
         $product =  Product::find($request->product_id);
 
-        //Check stock
-        if($product->stock < $request->quantity){
-                return response()->json(['error' => 'Out of stock'], 400);
-        }
+
 
         $cartItem = Cart::where('session_id', $sessionId)->where('product_id', $request->product_id)->first();
+
+        $currentQty = $cartItem ? $cartItem->quantity : 0;
+
+        //Check stock
+        if($product->stock < ($currentQty + $request->quantity)){
+                return response()->json(['error' => 'Out of stock'], 400);
+        }
 
         if($cartItem){
             $cartItem->quantity += $request->quantity;

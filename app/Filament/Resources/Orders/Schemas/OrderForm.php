@@ -23,7 +23,7 @@ class OrderForm
                     'completed' => 'Completed',
                     'cancelled' => 'Cancelled',
                 ])
-                ->required(),
+            ->required(),
             ]);
     }
 }

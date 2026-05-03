@@ -9,15 +9,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Order extends Model
 {
     use HasFactory;
-    protected $fillable = ['order_number', 'customer_name', 'customer_phone', 'shipping_address', 'total','payment_method', 'status'];
+    protected $fillable = ['session_id', 'order_number', 'customer_name', 'customer_phone', 'shipping_address', 'total','payment_method', 'status'];
 
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
 
-    public function orderItems(): HasMany
+    public function items(): HasMany
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(OrderItem::class, 'order_id');
     }
 }

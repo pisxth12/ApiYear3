@@ -13,7 +13,7 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $products = Product::with(['category', 'brand'])->where('is_active', 1);
+        $products = Product::where('is_active', 1);
 
         //Filter by category
         if($request->category_id) {
@@ -29,7 +29,16 @@ class ProductController extends Controller
             $products = $products->where('name', 'like', '%' . $request->search . '%');
         }
 
-        $products = $products->get();
+        $products = $products->get()->map(function ($product) {
+            return [
+                'id' => $product->id,
+                'name' => $product->name,
+                'slug' => $product->slug,
+                'price' => $product->price,
+                'sale_price' => $product->sale_price,
+                'image' => $product->image ? asset('storage/' . $product->image) : null,
+            ];
+        });
 
 
         return response()->json($products);
@@ -63,10 +72,28 @@ class ProductController extends Controller
     // Single product
     public function show(string $slug)
     {
-        $product = Product::with(['category', 'brand'])->where('slug', $slug)->where('is_active', 1)->first();
+        $product = Product::with(['category', 'brand'])
+            ->where('slug', $slug)
+            ->where('is_active', 1)
+            ->first();
+
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+
+        $product->image = $product->image ? asset('storage/' . $product->image) : null;
+
+        if ($product->category && $product->category->image) {
+            $product->category->image = asset('storage/' . $product->category->image);
+        }
+
+        // Also fix brand logo
+        if ($product->brand && $product->brand->logo) {
+            $product->brand->logo = asset('storage/' . $product->brand->logo);
+        }
+
         return response()->json($product);
     }
-
     // Categories
     public function categories()
     {

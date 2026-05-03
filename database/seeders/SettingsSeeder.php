@@ -15,6 +15,8 @@ class SettingsSeeder extends Seeder
     {
         $settings = [
             ['key' => 'phone', 'value' => '012 345 678'],
+            ['key' => 'site_name', 'value' => 'Mongkol'],
+
             ['key' => 'email', 'value' => 'info@mongkolshop.com'],
             ['key' => 'address', 'value' => 'Phnom Penh, Cambodia'],
             ['key' => 'facebook', 'value' => 'https://facebook.com/mongkolshop'],
