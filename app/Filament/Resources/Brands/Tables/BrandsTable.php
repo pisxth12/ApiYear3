@@ -19,7 +19,9 @@ class BrandsTable
                 ImageColumn::make('logo')
                     ->label('Logo')
                     ->width(80)
-                    ->height(50),
+                    ->height(50)
+                     ->disk('public') 
+    ->visibility('public'), 
 
                 TextColumn::make('name')
                 ->label('Name')

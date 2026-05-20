@@ -23,6 +23,7 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+        
             ->default()
             ->id('admin')
             ->path('admin')
@@ -30,6 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
+            ->brandName("Admin Panel")
             ->navigationGroups([
                 'Shop Management',
                 'Customer Management',

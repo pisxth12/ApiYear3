@@ -11,38 +11,52 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index(Request $request)
-    {
-        $products = Product::where('is_active', 1);
+   public function index(Request $request)
+{
+    $products = Product::where('is_active', 1);
 
-        //Filter by category
-        if($request->category_id) {
-            $products = $products->where('category_id', $request->category_id);
-        }
-        //Filter brand id
-        if($request->brand_id) {
-            $products = $products->where('brand_id', $request->brand_id);
-        }
-
-        //search
-        if($request->search) {
-            $products = $products->where('name', 'like', '%' . $request->search . '%');
-        }
-
-        $products = $products->get()->map(function ($product) {
-            return [
-                'id' => $product->id,
-                'name' => $product->name,
-                'slug' => $product->slug,
-                'price' => $product->price,
-                'sale_price' => $product->sale_price,
-                'image' => $product->image ? asset('storage/' . $product->image) : null,
-            ];
-        });
-
-
-        return response()->json($products);
+    // Filter by category
+    if ($request->category_id) {
+        $products = $products->where('category_id', $request->category_id);
     }
+
+    // Filter by brand
+    if ($request->brand_id) {
+        $products = $products->where('brand_id', $request->brand_id);
+    }
+
+    
+    if ($request->search) {
+        $searchTerm = '%' . $request->search . '%';
+        
+        $products = $products->where(function ($query) use ($searchTerm) {
+            $query->where('name', 'like', $searchTerm)
+                  ->orWhere('description', 'like', $searchTerm)
+                  ->orWhereHas('brand', function ($q) use ($searchTerm) {
+                      $q->where('name', 'like', $searchTerm);
+                  })
+                  ->orWhereHas('category', function ($q) use ($searchTerm) {
+                      $q->where('name', 'like', $searchTerm);
+                  });
+        });
+    }
+
+    $products = $products->get()->map(function ($product) {
+        return [
+            'id' => $product->id,
+            'name' => $product->name,
+            'slug' => $product->slug,
+            'price' => $product->price,
+            'sale_price' => $product->sale_price,
+            'description' => $product->description, 
+            'image' => $product->image ? asset('storage/' . $product->image) : null,
+            'brand' => $product->brand ? $product->brand->name : null, 
+            'category' => $product->category ? $product->category->name : null, 
+        ];
+    });
+
+    return response()->json($products);
+}
 
     public function topProducts()
     {

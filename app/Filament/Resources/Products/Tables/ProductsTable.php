@@ -19,7 +19,10 @@ class ProductsTable
                 ImageColumn::make('image')
                     ->label('Image')
                     ->width(80)
-                    ->height(50),
+                    ->height(50)
+
+                     ->disk('public') 
+    ->visibility('public'), 
 
                 TextColumn::make('name')
                     ->label('Name')

@@ -20,7 +20,9 @@ class CategoriesTable
                 ImageColumn::make('image')
                     ->label('Image')
                     ->width(80)
-                    ->imageHeight(50),
+                    ->imageHeight(50)
+                     ->disk('public') 
+    ->visibility('public'), 
 
                 TextColumn::make('name')
                     ->searchable()
