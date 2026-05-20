@@ -8,4 +8,4 @@ docker + sail
 
 wsl recommend
 
-how to run = " ./vendor/bin/sail artisan serve"
+how to run = " ./vendor/bin/sail up -d"
