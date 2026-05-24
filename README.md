@@ -8,7 +8,7 @@ Project នេះគឺជា Backend API System ដែលប្រើ Laravel 1
 
 - Laravel 11 (REST API Backend)
 - Filament 3 (Admin Dashboard)
-- PostgreSQL (Database)
+- Mysql (Database)
 - Docker + Laravel Sail (Development Environment)
 - WSL2 (Recommended for Windows users)
 
@@ -45,6 +45,9 @@ cd <project-folder>
 
 
 
-server run on http://localhost/
+
+How to Run Project : ./vendor/bin/sail up -d
+server run on : http://localhost/
 
 
+Backup Data : laravel_backup_data.sql
